@@ -12,8 +12,11 @@ const hashingRoundsCount = 10;
  * @swagger
  * /api/auth/register:
  *   post:
- *     summary: Register a new user
- *     description: Creates a new user account and returns access/refresh tokens
+ *     summary: Регистрация нового пользователя
+ *     description: Создает новую учетную запись пользователя и возвращает токены доступа/обновления.
+ *     operationId: registerUser
+ *     tags:
+ *       - Auth
  *     requestBody:
  *       required: true
  *       content:
