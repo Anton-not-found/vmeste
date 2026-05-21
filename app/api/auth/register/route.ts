@@ -42,11 +42,11 @@ const hashingRoundsCount = 10;
  *                 type: string
  *     responses:
  *       201:
- *         description: User successfully created
+ *         description: Пользователь успешно создан
  *       400:
- *         description: Validation error or user already exists
+ *         description: Ошибка проверки или пользователь уже существует
  *       500:
- *         description: Internal server error
+ *         description: Внутренняя ошибка сервера
  */
 export async function POST(request: NextRequest) {
   try {
