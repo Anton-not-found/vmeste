@@ -4,9 +4,9 @@ import { NextRequest, NextResponse } from "next/server";
 import User, { toUserResponse } from "@/entities/user/model/user.model";
 import { IApiResponse } from "@/shared/types/api.types";
 import { generateAccessToken, generateRefreshToken } from "@/lib/jwt.config";
+import z from "zod";
 
 const hashingRoundsCount = 10;
-
 
 /**
  * @swagger
@@ -48,14 +48,43 @@ const hashingRoundsCount = 10;
  *       500:
  *         description: Внутренняя ошибка сервера
  */
+
+
+
 export async function POST(request: NextRequest) {
+  const registerSchema = z.object({
+  email: z.string().email({ message: 'Некорректный формат email' }),
+  password: z.string().min(6, 'Пароль должен быть минимум 6 символов'),
+  firstName: z.string().min(1, 'Имя обязательно'),
+  lastName: z.string().optional(),
+  city: z.string().optional(),
+});
+
   try {
     // Подключаемся к MongoDB
     await dbConnect();
 
     // Получаем данные из тела запроса
     const body = await request.json();
+    const validationResult = registerSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.issues.map(err => err.message);
+      return NextResponse.json<IApiResponse<never>>(
+        {
+          success: false,
+          error: {
+            status: 400,
+            message: errors.join(', '),
+          },
+        },
+        { status: 400 }
+      );
+    }
+
     const { email, password, firstName, lastName, city } = body;
+
+    //TODO: добавить валидацию email и password
 
     if (!email || !password || !firstName) {
       return NextResponse.json<IApiResponse<never>>(
