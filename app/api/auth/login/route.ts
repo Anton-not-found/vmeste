@@ -55,12 +55,34 @@ import { dbConnect } from "@/lib/mongodb";
 import { IApiResponse } from "@/shared/types/api.types";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import z from "zod";
 
 export async function POST(request: NextRequest) {
+  const loginSchema = z.object({
+    email: z.string().email({ message: "Некорректный формат email" }),
+    password: z.string().min(1, "Пароль обязателен"),
+  });
+
   try {
     await dbConnect();
 
     const body = await request.json();
+    const validationResult = loginSchema.safeParse(body);
+
+    if (!validationResult.success) {
+      const errors = validationResult.error.issues.map((err) => err.message);
+      return NextResponse.json<IApiResponse<never>>(
+        {
+          success: false,
+          error: {
+            status: 400,
+            message: errors.join(", "),
+          },
+        },
+        { status: 400 },
+      );
+    }
+
     const { email, password } = body;
 
     if (!email || !password) {
