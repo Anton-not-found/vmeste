@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { createAuthSlice, IAuthActions, IAuthState } from "./authSlice";
 
-interface IAppStore {
+interface IRootStore {
   auth: IAuthState & IAuthActions;
   // Сюда добавятся другие срезы
 }
 
-export const useRootStore = create<IAppStore>()((...args) => ({
+export const useRootStore = create<IRootStore>()((...args) => ({
   ...createAuthSlice(...args),
   // ...createCatalogsSlice(...args), - добавим позже
 }));
@@ -28,7 +28,7 @@ if (typeof window !== "undefined") {
 
       const cleanState: Record<string, any> = {};
       for (const sliceName in fullState) {
-        const slice = fullState[sliceName as keyof IAppStore];
+        const slice = fullState[sliceName as keyof IRootStore];
         cleanState[sliceName] = getOnlyData(slice);
       }
       return cleanState;
