@@ -1,4 +1,96 @@
+@import "../../styles/variables.scss";
+
 .container {
-  display: flex;
   min-height: 100vh;
+  height: 100%;
+}
+
+.hero {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #e8fb93 0%, #0f9e46 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: $spacing-xl;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroContent {
+  text-align: center;
+  color: white;
+  z-index: 1;
+}
+
+.title {
+  font-size: 48px;
+  margin-bottom: $spacing-md;
+  font-weight: $font-weight-bold;
+}
+
+.subtitle {
+  font-size: 18px;
+  opacity: 0.9;
+  line-height: 1.5;
+}
+
+// Декоративные круги
+.circle1 {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  top: 10%;
+  left: -10%;
+  z-index: 0;
+}
+
+.circle2 {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  bottom: 10%;
+  right: -10%;
+  z-index: 0;
+}
+
+.formWrapper {
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
+//   padding: $spacing-xl;
+}
+
+// Адаптив
+@media (max-width: $breakpoint-md) {
+  .title {
+    font-size: 32px;
+  }
+  
+  .subtitle {
+    font-size: 14px;
+  }
+  
+  .hero {
+    padding: $spacing-lg;
+  }
+  
+  .formWrapper {
+    padding: $spacing-lg;
+  }
+}
+
+@media (max-width: $breakpoint-sm) {
+  .title {
+    font-size: 24px;
+  }
+  
+  .formWrapper {
+    padding: $spacing-md;
+  }
 }
