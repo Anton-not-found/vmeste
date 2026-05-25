@@ -1,0 +1,70 @@
+@import '../../../../../styles//variables.scss';
+
+.link {
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.primary {
+  color: $brand-primary;
+
+  &:hover {
+    color: $brand-primary-hover; 
+  }
+}
+
+.secondary {
+  color: $text-secondary;
+
+  &:hover {
+    color: $text-primary;
+  }
+}
+
+.danger {
+  color: $error;
+
+  &:hover {
+    color: darken($error, 10%);
+  }
+}
+
+
+.underline-always {
+  text-decoration: underline;
+}
+
+.underline-hover {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.underline-none {
+  text-decoration: none;
+}
+
+.size-small {
+  font-size: 12px;
+}
+
+.size-medium {
+  font-size: 14px;
+}
+
+.size-large {
+  font-size: 16px;
+}
+
+
+.weight-normal { font-weight: 400; }
+.weight-medium { font-weight: 500; }
+.weight-semibold { font-weight: 600; }
+.weight-bold { font-weight: 700; }
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}

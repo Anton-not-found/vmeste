@@ -1,22 +1,20 @@
 'use client';
 
+import { forwardRef } from 'react';
 import { mergeClassNames } from "@/lib/commonHelpers/mergeClassNames";
-import { forwardRef } from "react";
-import { getStyle } from "../functions";
+import styles from "../styles/Flex.module.scss";
 
 type TProps = {
   children: React.ReactNode;
   align?: "center" | "start" | "end" | "normal" | "flex-start";
   justify?: "center" | "start" | "end" | "space-between" | "normal" | "flex-start";
   vertical?: boolean;
-  wrap?: boolean | "nowrap" | "wrap";
+  wrap?: boolean | "nowrap" | "wrap" | "wrap-reverse";
   gap?: string | number;
   style?: React.CSSProperties;
   className?: string;
-  ref?: any;
   onClick?: () => void;
 };
-
 
 export const Flex = forwardRef<HTMLDivElement, TProps>(
   (
@@ -24,49 +22,66 @@ export const Flex = forwardRef<HTMLDivElement, TProps>(
       children,
       align = "start",
       justify = "start",
-      // align = "normal",
-      // justify = "normal",
       vertical = false,
       wrap,
       gap,
       style,
-      className,
+      className = "",
       onClick,
     },
     ref,
   ) => {
-    const preparedJustify =
-      justify === "space-between" ? justify.split("-")[1] : justify;
 
-    const alignClassName = `items-${align}`;
+    const classNames = [styles.flex];
 
-    const justifyClassName = `justify-${preparedJustify}`;
+    if (vertical) {
+      classNames.push(styles.vertical);
+    } else {
+      classNames.push(styles.horizontal);
+    }
 
-    const verticalClassName = vertical ? "flex-col" : "flex-row";
+    const alignKey = `align-${align}` as keyof typeof styles;
+    if (styles[alignKey]) {
+      classNames.push(styles[alignKey]);
+    }
 
-    const wrapClassName = wrap ? "flex-wrap" : `flex-${wrap}`;
+    let justifyKey = `justify-${justify}`;
+    if (justify === "space-between") {
+      justifyKey = "justify-space-between";
+    }
+    if (styles[justifyKey as keyof typeof styles]) {
+      classNames.push(styles[justifyKey as keyof typeof styles]);
+    }
 
-    //   const classNameProps: string = mergeClassNames('inline-flex',
-    const classNameProps: string = mergeClassNames(
-      "flex",
-      className,
-      alignClassName,
-      justifyClassName,
-      wrapClassName,
-      verticalClassName,
-    );
+    if (wrap !== undefined) {
+      let wrapKey = `wrap-${wrap}`;
+      if (wrap === true) wrapKey = "wrap-true";
+      if (wrap === false) wrapKey = "wrap-nowrap";
+      
+      if (styles[wrapKey as keyof typeof styles]) {
+        classNames.push(styles[wrapKey as keyof typeof styles]);
+      }
+    }
 
-    const styleProps: React.CSSProperties = getStyle(gap, style);
+    const finalClassName = mergeClassNames(classNames.join(' '), className);
+
+    const styleProps: React.CSSProperties = { ...style };
+    if (gap !== undefined) {
+      const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
+      styleProps.gap = gapValue;
+    }
 
     return (
       <div
         onClick={onClick}
         style={styleProps}
-        className={classNameProps}
+        className={finalClassName}
         ref={ref}
       >
         {children}
       </div>
     );
-  },
+  }
 );
+
+// Flex.displayName = 'Flex';

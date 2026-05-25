@@ -2,6 +2,7 @@
 
 import { Button, Input } from "@/shared/components";
 import { Flex } from "@/shared/components/common";
+import { Link } from "@/shared/components/common/Link/ui/Link";
 import { useRootStore } from "@/stores/useRootStore";
 import { useRouter } from "next/navigation";
 
@@ -74,8 +75,9 @@ export const LoginForm: FC = () => {
         />
         {error && <div style={{ width: 200 }}>{error}</div>}
         <Button isLoading={isLoading} type="submit" variant="primary" fullWidth>
-          Присоедениться
+          Присоединиться
         </Button>
+        <Link variant="primary" size="large" href="/register">Зарегистрироваться</Link>
       </Flex>
     </form>
   );

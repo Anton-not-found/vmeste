@@ -1,0 +1,27 @@
+@import "../../../../../styles/variables.scss";
+
+.text {
+ 
+  font-family: inherit;
+  line-height: 1.5;
+
+  &.secondary {
+    color: $text-secondary;
+  }
+
+  &.strong {
+    font-weight: 600;
+  }
+
+  &.nowrap {
+    white-space: nowrap;
+  }
+
+  &.ellipsis {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}
