@@ -15,11 +15,12 @@ $text-secondary: #6b7280;
 $text-tertiary: #9ca3af;
 $text-inverse: #ffffff;
 $text-disabled: #9ca3af;
+$text-warning: #f59e0b;
 
 // Цвета фона
-$bg-primary: #ffffff;
-$bg-secondary: #f9fafb;
-$bg-tertiary: #f3f4f6;
+$bg-primary: #dcfdc8bd;
+$bg-secondary: #e5effa;
+$bg-tertiary: #bcdaf8;
 $bg-inverse: #1f2937;
 
 // Цвета границ
@@ -42,6 +43,10 @@ $link-secondary: #6b7280;
 $link-secondary-hover: #111827;
 $link-danger: #ef4444;
 $link-danger-hover: #dc2626;
+
+// Цвета common
+
+$gold: #ffd900;
 
 // ============================================
 // Размеры и отступы
@@ -74,6 +79,7 @@ $shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 // ============================================
 
 // Размеры шрифтов
+$font-size-s: 10px;
 $font-size-xs: 12px;
 $font-size-sm: 14px;
 $font-size-md: 16px;

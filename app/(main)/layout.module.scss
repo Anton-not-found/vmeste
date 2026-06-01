@@ -1,7 +1,7 @@
 .mainLayout {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .mainHeader {
@@ -15,12 +15,15 @@
 
 .mainContent {
   flex: 1;
-  padding: 2rem;
+  padding: 24px;
 }
 
 .mainFooter {
-  padding: 1rem 2rem;
-  text-align: center;
+  max-height: 60px;
+  height: 100%;
   color: #6b7280;
   border-top: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

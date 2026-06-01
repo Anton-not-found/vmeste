@@ -19,7 +19,6 @@ export default function AuthLayout({
           </p>
         </div>
       </div>
-      {/* <div className={styles.formWrapper}>{children}</div> */}
       <Flex justify="center" align="center" className={styles.formWrapper}>{children}</Flex>
     </Flex>
   );
