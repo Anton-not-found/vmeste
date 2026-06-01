@@ -1,0 +1,53 @@
+@import "../../../styles/variables.scss";
+
+.header {
+  
+    border-radius: $radius-xl $radius-xl 0 0;
+    height: 40%;
+}
+
+.body {
+    height: 50%;
+    margin: 0 16px;
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.container_footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 16px 16px 16px 16px;
+    height: 10%;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.footer_icon {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.icon_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    cursor: pointer
+}
+.icon_container:hover {
+    background-color: $bg-secondary;
+    border-radius: 6px;
+}
+
+
+.icon_favorite {
+    color: $gold;
+}

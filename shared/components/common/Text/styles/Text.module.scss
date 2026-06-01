@@ -5,14 +5,49 @@
   font-family: inherit;
   line-height: 1.5;
 
+  &.primary {
+    color: $text-primary;
+  }
   &.secondary {
     color: $text-secondary;
+  }
+  &.tertiary {
+    color: $text-tertiary;
+  }
+  &.warning {
+    color: $text-warning;
+  }
+  &.s {
+    font-size: $font-size-s;
+  }
+  &.xs {
+    font-size: $font-size-xs;
+  }
+  &.sm {
+    font-size: $font-size-sm;
+  }
+  &.md {
+    font-size: $font-size-md;
+  }
+  &.lg {
+    font-size: $font-size-lg;
+  }
+  &.xl {
+    font-size: $font-size-xl;
+  }
+  &.xxl {
+    font-size: $font-size-2xl;
+  }
+  &.xxxl {
+    font-size: $font-size-3xl;
+  }
+  &.xxxxl {
+    font-size: $font-size-4xl;
   }
 
   &.strong {
     font-weight: 600;
   }
-
   &.nowrap {
     white-space: nowrap;
   }
@@ -23,5 +58,41 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+  }
+
+    &.line-clamp {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word; 
+  }
+
+  // Для разных количеств строк
+  &.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+     line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+     line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &.line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+     line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }

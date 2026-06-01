@@ -1,0 +1,11 @@
+@import "../../../../styles/variables.scss";
+
+.container {
+    border: 1px solid $border-secondary;
+    border-radius: $radius-xl;
+    width: 400px;
+    height: 500px;
+    // padding: $spacing-md;
+    display: flex;
+    flex-direction: column;
+}
