@@ -8,27 +8,37 @@ import { Text } from "../../../shared/components/common/Text/ui/Text";
 
 import styles from "../styles/CardEntity.module.scss";
 import dayjs from "@/lib/dayjs";
+import { Flex } from "@/shared/components/common";
 type TProps = {
   data: IActivityCollection;
 };
 export const ActivityCardFooter: FC<TProps> = ({ data }) => {
   return (
     <div className={styles.container_footer}>
-      <div className={styles.footer}>
-        <Text strong>Начало активности:</Text>
-        <Text type="warning">
-          {dayjs(data.activateOnUtc).format("D MMMM YYYY в HH:mm")}
-        </Text>
-      </div>
-      <div className={styles.footer_icon}>
-        <div className={styles.icon_container}>
+      <Flex vertical gap={4}>
+        <Flex fullWidth align="center" justify="space-between">
+          <Text strong>Начало активности:</Text>
+          <Text type="warning">
+            {dayjs(data.activateOnUtc).format("D MMMM YYYY в HH:mm")}
+          </Text>
+        </Flex>
+        <Flex fullWidth align="center" justify="space-between">
+          <Text strong>Локация:</Text>
+          <Text type="warning">{data.location}</Text>
+        </Flex>
+      </Flex>
+
+      <Flex align="center" fullWidth justify="end">
+        <Flex align="center" justify="center" className={styles.icon_container}>
           {data.isFavorite ? (
-            <HeartFilled className={styles.icon_favorite} fontSize={20} />
+            <HeartFilled className={styles.icon_favorite} fontSize={24} />
           ) : (
-            <HeartRegular className={styles.icon_favorite} fontSize={20} />
+            <HeartRegular className={styles.icon_favorite} fontSize={24} />
           )}
-        </div>
-      </div>
+        </Flex>
+      </Flex>
     </div>
   );
 };
+
+

@@ -87,8 +87,6 @@ export const Text: React.FC<TProps> = ({
   // }
 
   if (maxLines && maxLines > 1) {
-    console.log("Applied class:", styles[`line-clamp-${maxLines}`]);
-    console.log("Final classNames:", classNames);
     classNames.push(styles[`line-clamp-${maxLines}`]);
   } else if (ellipsis || maxLines === 1) {
     classNames.push(styles.ellipsis);

@@ -1,16 +1,24 @@
-'use client';
+"use client";
 
-import { forwardRef } from 'react';
+import { forwardRef } from "react";
 import { mergeClassNames } from "@/lib/commonHelpers/mergeClassNames";
 import styles from "../styles/Flex.module.scss";
 
 type TProps = {
   children: React.ReactNode;
   align?: "center" | "start" | "end" | "normal" | "flex-start";
-  justify?: "center" | "start" | "end" | "space-between" | "normal" | "flex-start";
+  justify?:
+    | "center"
+    | "start"
+    | "end"
+    | "space-between"
+    | "normal"
+    | "flex-start";
   vertical?: boolean;
   wrap?: boolean | "nowrap" | "wrap" | "wrap-reverse";
   gap?: string | number;
+  fullWidth?: boolean;
+  fullHeight?: boolean;
   style?: React.CSSProperties;
   className?: string;
   onClick?: () => void;
@@ -23,6 +31,8 @@ export const Flex = forwardRef<HTMLDivElement, TProps>(
       align = "start",
       justify = "start",
       vertical = false,
+      fullWidth = false,
+      fullHeight = false,
       wrap,
       gap,
       style,
@@ -31,7 +41,6 @@ export const Flex = forwardRef<HTMLDivElement, TProps>(
     },
     ref,
   ) => {
-
     const classNames = [styles.flex];
 
     if (vertical) {
@@ -57,18 +66,25 @@ export const Flex = forwardRef<HTMLDivElement, TProps>(
       let wrapKey = `wrap-${wrap}`;
       if (wrap === true) wrapKey = "wrap-true";
       if (wrap === false) wrapKey = "wrap-nowrap";
-      
+
       if (styles[wrapKey as keyof typeof styles]) {
         classNames.push(styles[wrapKey as keyof typeof styles]);
       }
     }
 
-    const finalClassName = mergeClassNames(classNames.join(' '), className);
+    const finalClassName = mergeClassNames(classNames.join(" "), className);
 
     const styleProps: React.CSSProperties = { ...style };
     if (gap !== undefined) {
-      const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
+      const gapValue = typeof gap === "number" ? `${gap}px` : gap;
       styleProps.gap = gapValue;
+    }
+
+    if (fullWidth) {
+      styleProps.width = "100%";
+    }
+    if (fullHeight) {
+      styleProps.height = "100%";
     }
 
     return (
@@ -81,7 +97,7 @@ export const Flex = forwardRef<HTMLDivElement, TProps>(
         {children}
       </div>
     );
-  }
+  },
 );
 
 // Flex.displayName = 'Flex';

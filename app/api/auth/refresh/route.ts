@@ -28,7 +28,7 @@
  *         description: Внутренняя ошибка сервера
  */
 
-import User from "@/entities/user/model/user.model";
+import User, { IUserResponse, toUserResponse } from "@/entities/user/model/user.model";
 import { generateAccessToken, verifyRefreshToken } from "@/lib/jwt.config";
 import { dbConnect } from "@/lib/mongodb";
 import { IApiResponse } from "@/shared/types/api.types";
@@ -88,12 +88,15 @@ export async function POST(request: NextRequest) {
     //  Генерируем новый accessToken
     const newPayload = { userId: user._id.toString(), email: user.email };
     const newAccessToken = generateAccessToken(newPayload);
+     const userResponse = toUserResponse(user);
 
-    return NextResponse.json<IApiResponse<{ accessToken: string }>>(
+    return NextResponse.json<IApiResponse<{ accessToken: string, user: IUserResponse }>>(
       {
         success: true,
         data: {
           accessToken: newAccessToken,
+          user: userResponse, 
+          
         },
       },
       { status: 200 },

@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { createAuthSlice, IAuthActions, IAuthState } from "./authSlice";
+import { authSlice, IAuthActions, IAuthState } from "./authSlice";
 
 interface IRootStore {
   auth: IAuthState & IAuthActions;
@@ -7,8 +7,8 @@ interface IRootStore {
 }
 
 export const useRootStore = create<IRootStore>()((...args) => ({
-  ...createAuthSlice(...args),
-  // ...createCatalogsSlice(...args), - добавим позже
+  ...authSlice(...args),
+  // ...activityCardCollectionSlice(...args), - добавим позже
 }));
 
 function getOnlyData<T extends Record<string, any>>(obj: T): Partial<T> {
