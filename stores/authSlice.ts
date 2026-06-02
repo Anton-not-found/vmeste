@@ -37,7 +37,7 @@ const initialState: IAuthState = {
   error: null,
 };
 
-export const createAuthSlice: StateCreator<
+export const authSlice: StateCreator<
   { auth: TAuthSlice }, // тип всего стора
   [],
   [],
@@ -210,6 +210,7 @@ export const createAuthSlice: StateCreator<
             auth: {
               ...state.auth,
               accessToken: result.data.accessToken,
+              user: result.data.user,
             },
           }));
           return true;
