@@ -1,10 +1,12 @@
 .mainLayout {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;         
+  overflow: hidden;        
 }
 
 .mainHeader {
+    flex-shrink: 0;
   padding: 1rem 2rem;
   background: white;
   border-bottom: 1px solid #e5e7eb;
@@ -14,11 +16,13 @@
 }
 
 .mainContent {
+  overflow-y: auto; 
   flex: 1;
   padding: 24px;
 }
 
 .mainFooter {
+  flex-shrink: 0;
   max-height: 60px;
   height: 100%;
   color: #6b7280;

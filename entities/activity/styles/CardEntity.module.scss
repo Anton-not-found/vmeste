@@ -1,37 +1,8 @@
-@import "../../../styles/variables.scss";
 
-.header {
-    border-radius: $radius-xl $radius-xl 0 0;
-    height: 40%;
-}
-
-.body {
-    height: 40%;
-    margin: 0 $spacing-md;
-    padding-top: $spacing-md;
-    display: flex;
-    flex-direction: column;
-    row-gap: 8px;
-}
-
-.container_footer {
+.card_body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: $spacing-md $spacing-md $spacing-md $spacing-md;
-    height: 20%;
+    height: 100%;
 }
 
-.icon_container {
-    padding: 6px;
-    cursor: pointer
-}
-
-.icon_container:hover {
-    background-color: $bg-secondary;
-    border-radius: 6px;
-}
-
-.icon_favorite {
-    color: $gold;
-}
