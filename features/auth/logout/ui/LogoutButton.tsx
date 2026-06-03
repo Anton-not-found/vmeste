@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { useRootStore } from '@/stores/useRootStore';
-import { Button } from '@/shared/components';
+import { useRouter } from "next/navigation";
+import { useRootStore } from "@/stores/useRootStore";
+import { Button } from "antd";
 
 export const LogoutButton = () => {
   const router = useRouter();
@@ -11,15 +11,11 @@ export const LogoutButton = () => {
 
   const handleLogout = async () => {
     await logout();
-    router.push('/register');
+    router.push("/register");
   };
 
   return (
-    <Button 
-      onClick={handleLogout} 
-      variant="outline" 
-      isLoading={isLoading}
-    >
+    <Button onClick={handleLogout} loading={isLoading}>
       Выйти
     </Button>
   );

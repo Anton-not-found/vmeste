@@ -1,13 +1,12 @@
 "use client";
 
 import { useRootStore } from "@/stores/useRootStore";
-import { Input, Button } from "@/shared/components";
 import { Controller, SubmitHandler, useForm, Validate } from "react-hook-form";
-import { Flex } from "@/shared/components/common";
 import { Text } from "@/shared/components/common/Text/ui/Text";
 import { useRouter } from "next/navigation";
-import { Link } from "@/shared/components/common/Link/ui/Link";
 import { isEmail } from "@/shared";
+import { Button, Flex, Form, Input } from "antd";
+import Link from "antd/es/typography/Link";
 
 interface IFormField {
   email: string;
@@ -56,20 +55,20 @@ export const RegisterForm = () => {
     return true;
   };
 
- const isFormValid = () => {
-  return (
-    emailWatch &&
-    isEmail(emailWatch) &&
-    passwordWatch &&
-    passwordWatch.length >= 6 &&
-    firstNameWatch
-  );
-};
+  const isFormValid = () => {
+    return (
+      emailWatch &&
+      isEmail(emailWatch) &&
+      passwordWatch &&
+      passwordWatch.length >= 6 &&
+      firstNameWatch
+    );
+  };
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)} className="register-form">
-        <Flex gap={24} vertical>
+        <Flex gap={16} vertical>
           <Flex vertical gap={16}>
             <Controller
               name="email"
@@ -82,17 +81,22 @@ export const RegisterForm = () => {
                 field: { name, value, onChange },
                 fieldState: { error },
               }) => (
-                <Input
-                  name={name}
-                  value={value}
+                <Form.Item
                   label="Email"
-                  data-testid="email"
-                  type="text"
-                  placeholder="hello@vmeste.ru"
-                  required
-                  onChange={onChange}
-                  error={error?.message}
-                />
+                  validateStatus={error ? "error" : ""}
+                  help={error?.message}
+                  required={true}
+                >
+                  <Input
+                    name={name}
+                    value={value}
+                    data-testid="email"
+                    type="text"
+                    placeholder="hello@vmeste.ru"
+                    required
+                    onChange={onChange}
+                  />
+                </Form.Item>
               )}
             />
             <Controller
@@ -106,18 +110,23 @@ export const RegisterForm = () => {
                 field: { name, value, onChange },
                 fieldState: { error },
               }) => (
-                <Input
-                  autoComplete="off"
-                  name={name}
-                  value={value}
+                <Form.Item
                   label="Пароль"
-                  data-testid="password"
-                  type="password"
-                  placeholder="*****"
-                  required
-                  onChange={onChange}
-                  error={error?.message}
-                />
+                  validateStatus={error ? "error" : ""}
+                  help={error?.message}
+                  required={true}
+                >
+                  <Input.Password
+                    autoComplete="off"
+                    name={name}
+                    value={value}
+                    data-testid="password"
+                    type="password"
+                    placeholder="*****"
+                    required
+                    onChange={onChange}
+                  />
+                </Form.Item>
               )}
             />
             <Controller
@@ -131,34 +140,42 @@ export const RegisterForm = () => {
                 field: { name, value, onChange },
                 fieldState: { error },
               }) => (
-                <Input
-                  name={name}
-                  value={value}
+                <Form.Item
                   label="Имя"
-                  data-testid="name"
-                  type="text"
-                  placeholder="Как тебя зовут?"
-                  required
-                  onChange={onChange}
-                  error={error?.message}
-                />
+                  validateStatus={error ? "error" : ""}
+                  help={error?.message}
+                  required={true}
+                >
+                  <Input
+                    name={name}
+                    value={value}
+                    data-testid="name"
+                    type="text"
+                    placeholder="Как тебя зовут?"
+                    required
+                    onChange={onChange}
+                  />
+                </Form.Item>
               )}
             />
           </Flex>
 
           {/* <div>{error &&  error }</div> */}
           <Button
-            type="submit"
-            variant="primary"
-            fullWidth
-            isLoading={isLoading}
+            type="primary"
+            htmlType="submit"
+            loading={isLoading}
             disabled={!isFormValid() || isLoading}
           >
             СТАТЬ УЧАСТНИКОМ
           </Button>
           <Text>
             Уже с нами?{" "}
-            <Link variant="primary" size="large" href="/login">
+            <Link
+              // variant="primary"
+              // size="large"
+              href="/login"
+            >
               Войти
             </Link>
           </Text>

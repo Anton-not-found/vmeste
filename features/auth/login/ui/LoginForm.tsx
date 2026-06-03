@@ -1,9 +1,8 @@
 "use client";
 
-import { Button, Input } from "@/shared/components";
-import { Flex } from "@/shared/components/common";
-import { Link } from "@/shared/components/common/Link/ui/Link";
 import { useRootStore } from "@/stores/useRootStore";
+import { Button, Flex, Form, Input } from "antd";
+import Link from "antd/es/typography/Link";
 import { useRouter } from "next/navigation";
 
 import { FC, useState } from "react";
@@ -18,7 +17,6 @@ export const LoginForm: FC = () => {
   const router = useRouter();
   const { auth } = useRootStore();
   const { login, isLoading, error, clearError } = auth;
-
 
   const { handleSubmit, control, reset } = useForm<IFormField>({
     defaultValues: {
@@ -45,39 +43,57 @@ export const LoginForm: FC = () => {
           name="email"
           control={control}
           rules={{ required: true }}
-          render={({ field: { name, value, onChange } }) => (
-            <Input
-              name={name}
-              value={value}
+          render={({
+            field: { name, value, onChange },
+            fieldState: { error },
+          }) => (
+            <Form.Item
               label="Email"
-              type="email"
-              placeholder="hello@vmeste.ru"
-              required
-              onChange={onChange}
-            />
+              validateStatus={error ? "error" : ""}
+              help={error?.message}
+              required={true}
+            >
+              <Input
+                name={name}
+                value={value}
+                type="email"
+                placeholder="hello@vmeste.ru"
+                required
+                onChange={onChange}
+              />
+            </Form.Item>
           )}
         />
         <Controller
           name="password"
           control={control}
           rules={{ required: true }}
-          render={({ field: { name, value, onChange } }) => (
-            <Input
-              name={name}
-              value={value}
-              label="Пароль"
-              type="password"
-              placeholder="*****"
-              required
-              onChange={onChange}
-            />
+          render={({
+            field: { name, value, onChange },
+            fieldState: { error },
+          }) => (
+            <Form.Item
+              label="Email"
+              validateStatus={error ? "error" : ""}
+              help={error?.message}
+              required={true}
+            >
+              <Input.Password
+                name={name}
+                value={value}
+                type="password"
+                placeholder="*****"
+                required
+                onChange={onChange}
+              />
+            </Form.Item>
           )}
         />
         {error && <div style={{ width: 200 }}>{error}</div>}
-        <Button isLoading={isLoading} type="submit" variant="primary" fullWidth>
+        <Button loading={isLoading} type="primary" htmlType="submit">
           Присоединиться
         </Button>
-        <Link variant="primary" size="large" href="/register">Зарегистрироваться</Link>
+        <Link href="/register">Зарегистрироваться</Link>
       </Flex>
     </form>
   );
