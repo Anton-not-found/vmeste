@@ -2,23 +2,21 @@ export interface IActivityCollection {
   id: string;
   title: string;
   description: string;
-  category: string;
+  category?: EActivityCategory;
   activateOnUtc: string;
   location: string;
   price: number;
   currentParticipants: number;
   maxParticipants: number;
   imageUrl?: string;
-  isAuthor: boolean;
   isFavorite?: boolean;
+  author: IActivityAuthor;
 }
 
 export interface IActivity extends IActivityCollection {
-  fullDescription?: string;
   address?: string;
   createdAt: string;
   updatedAt: string;
-  author: IActivityAuthor;
 }
 
 export interface IActivityAuthor {
@@ -26,4 +24,17 @@ export interface IActivityAuthor {
   name: string;
   avatar?: string;
   rating: number;
+}
+
+export enum EActivityCategory {
+  SportsAndFitness, // Спорт и фитнес
+  Quizzes, // Квизы, викторины и интеллектуальные игры
+  BoardBames, // Настольные игры
+  Culinary, // Кулинарные мастер-классы
+  Creation, // Творчество и искусство
+  NatureAndActiveRecreation, // Природа и активный отдых
+  Quests, // Квесты и приключения
+  DancingAndMusic, // Танцы и музыка
+  TrainingAndSelfDevelopment, // Обучение и саморазвитие
+  PsychologyAndWellness, // Психология и wellness
 }

@@ -73,7 +73,7 @@ export const LoginForm: FC = () => {
             fieldState: { error },
           }) => (
             <Form.Item
-              label="Email"
+              label="Пароль"
               validateStatus={error ? "error" : ""}
               help={error?.message}
               required={true}

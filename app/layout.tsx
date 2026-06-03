@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import "../styles/globals.scss";
 import { AuthProvider } from "./providers/AuthProvider";
+import "../styles/globals.scss";
+import { ConfigProvider } from "antd";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 export const metadata: Metadata = {
   title: "Vmeste",
@@ -15,7 +17,18 @@ export default function RootLayout({
   return (
     <html lang="ru">
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <AntdRegistry>
+          <ConfigProvider
+            theme={{
+              token: {
+                colorPrimary: "#3b82f6",
+                borderRadius: 8,
+              },
+            }}
+          >
+            <AuthProvider>{children}</AuthProvider>
+          </ConfigProvider>
+        </AntdRegistry>
       </body>
     </html>
   );
