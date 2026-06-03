@@ -1,6 +1,5 @@
-import { Flex } from "@/shared/components/common";
-import styles from "./layout.module.scss"
-
+import { Flex } from "antd";
+import styles from "./layout.module.scss";
 
 export default function AuthLayout({
   children,
@@ -8,18 +7,22 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-     <Flex className={styles.container}>
+    <Flex className={styles.container}>
       <div className={styles.hero}>
         <div className={styles.circle1} />
         <div className={styles.circle2} />
         <div className={styles.heroContent}>
           <h1 className={styles.title}>VmeSte</h1>
           <p className={styles.subtitle}>
-            Находите компанию для<br />любых активностей
+            Находите компанию для
+            <br />
+            любых активностей
           </p>
         </div>
       </div>
-      <Flex justify="center" align="center" className={styles.formWrapper}>{children}</Flex>
+      <Flex justify="center" align="center" className={styles.formWrapper}>
+        {children}
+      </Flex>
     </Flex>
   );
 }

@@ -1,1 +1,1 @@
-export * from "./Flex/ui/Flex";
+export * from './Text'
