@@ -55,18 +55,18 @@ export const authSlice: StateCreator<
 
       try {
         const response = await authApi.register(data);
-        const result = await response.json();
+        const result = response.data; // axios автоматически парсит JSON
 
-        if (!response.ok) {
-          set((state) => ({
-            auth: {
-              ...state.auth,
-              error: result.error?.message || "Registration failed",
-              isLoading: false,
-            },
-          }));
-          return false;
-        }
+        // if (!response.ok) {
+        //   set((state) => ({
+        //     auth: {
+        //       ...state.auth,
+        //       error: result.error?.message || "Registration failed",
+        //       isLoading: false,
+        //     },
+        //   }));
+        //   return false;
+        // }
 
         if (result.success && result.data) {
           set((state) => ({
@@ -87,11 +87,14 @@ export const authSlice: StateCreator<
           },
         }));
         return false;
-      } catch (error) {
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.error?.message ||
+          "Network error. Please try again.";
         set((state) => ({
           auth: {
             ...state.auth,
-            error: "Network error. Please try again.",
+            error: errorMessage,
             isLoading: false,
           },
         }));
@@ -110,18 +113,18 @@ export const authSlice: StateCreator<
 
       try {
         const response = await authApi.login(email, password);
-        const result = await response.json();
+        const result = await response.data;
 
-        if (!response.ok) {
-          set((state) => ({
-            auth: {
-              ...state.auth,
-              error: result.error?.message || "Login failed",
-              isLoading: false,
-            },
-          }));
-          return false;
-        }
+        // if (!response.ok) {
+        //   set((state) => ({
+        //     auth: {
+        //       ...state.auth,
+        //       error: result.error?.message || "Login failed",
+        //       isLoading: false,
+        //     },
+        //   }));
+        //   return false;
+        // }
 
         if (result.success && result.data) {
           set((state) => ({
@@ -142,11 +145,14 @@ export const authSlice: StateCreator<
           },
         }));
         return false;
-      } catch (error) {
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.error?.message ||
+          "Network error. Please try again.";
         set((state) => ({
           auth: {
             ...state.auth,
-            error: "Network error. Please try again.",
+            error: errorMessage,
             isLoading: false,
           },
         }));
@@ -191,7 +197,7 @@ export const authSlice: StateCreator<
     checkAuth: async () => {
       try {
         const response = await authApi.refresh();
-        const result = await response.json();
+        const result = await response.data();
 
         if (result.success && result.data?.accessToken) {
           set((state) => ({

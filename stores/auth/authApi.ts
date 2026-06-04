@@ -1,3 +1,5 @@
+import { apiClient } from "@/lib";
+
 export interface IRegisterData {
   email: string;
   password: string;
@@ -6,29 +8,20 @@ export interface IRegisterData {
   city?: string;
 }
 
-
 export const authApi = {
   register: async (data: IRegisterData) => {
-    return fetch("/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+    return apiClient.post("/api/auth/register", data);
   },
 
   login: async (email: string, password: string) => {
-    return fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    return apiClient.post("/api/auth/login", { email, password });
   },
 
   logout: async () => {
-    return fetch("/api/auth/logout", { method: "POST" });
+    return apiClient.post("/api/auth/logout");
   },
 
   refresh: async () => {
-    return fetch("/api/auth/refresh", { method: "POST" });
+    return apiClient.post("/api/auth/refresh");
   },
 };
