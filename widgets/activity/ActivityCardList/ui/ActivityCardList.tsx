@@ -6,7 +6,6 @@ import { ActivityCard } from "@/widgets";
 import { Flex, Input } from "antd";
 import { FC, useMemo, useState } from "react";
 
-
 type TProps = {
   activityCardList: IActivityCollection[];
 };
@@ -17,8 +16,9 @@ export const ActivityCardList: FC<TProps> = ({ activityCardList }) => {
   const [searchValue, setSearchValue] = useState<string>("");
 
   const assignmentTemplateSearchFiltered = useMemo(() => {
-   return filterArrayByValues(searchValue, activityCardList, [
+    return filterArrayByValues(searchValue, activityCardList, [
       { key: "title" },
+      { key: "author.name" },
       { key: "description" },
       {
         key: "category",
@@ -26,8 +26,6 @@ export const ActivityCardList: FC<TProps> = ({ activityCardList }) => {
       },
     ]);
   }, [activityCardList, searchValue]);
-
-  
 
   return (
     <Flex vertical style={{ height: "100%" }}>
@@ -44,16 +42,15 @@ export const ActivityCardList: FC<TProps> = ({ activityCardList }) => {
       >
         <Search
           placeholder="Поиск"
-          onChange={(e)=> setSearchValue(e.target.value)}
+          onChange={(e) => setSearchValue(e.target.value)}
           onSearch={(e) => setSearchValue(e)}
           style={{ maxWidth: 300, width: "100%" }}
         />
       </Flex>
 
-      <Flex style={{ flex: 1, overflowY: "auto", minHeight: 0,  }} wrap gap={16}>
+      <Flex style={{ flex: 1, overflowY: "auto", minHeight: 0 }} wrap gap={16}>
         {assignmentTemplateSearchFiltered.map((item) => (
           <ActivityCard key={item.id} data={item} />
-
         ))}
       </Flex>
     </Flex>
