@@ -1,16 +1,14 @@
-// stores/authSlice.ts
 import { IUser } from "@/shared/types/user.types";
 import { StateCreator } from "zustand";
+import { authApi, IRegisterData } from "./authApi";
 
-
-
- interface IRegisterData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName?: string;
-  city?: string;
-}
+// interface IRegisterData {
+//   email: string;
+//   password: string;
+//   firstName: string;
+//   lastName?: string;
+//   city?: string;
+// }
 
 export interface IAuthState {
   user: IUser | null;
@@ -38,10 +36,10 @@ const initialState: IAuthState = {
 };
 
 export const authSlice: StateCreator<
-  { auth: TAuthSlice }, // тип всего стора
+  { auth: TAuthSlice },
   [],
   [],
-  { auth: TAuthSlice } // что возвращаем
+  { auth: TAuthSlice }
 > = (set, get) => ({
   auth: {
     ...initialState,
@@ -56,19 +54,14 @@ export const authSlice: StateCreator<
       }));
 
       try {
-        const response = await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-
+        const response = await authApi.register(data);
         const result = await response.json();
 
         if (!response.ok) {
           set((state) => ({
             auth: {
               ...state.auth,
-              error: result.error?.message || 'Registration failed',
+              error: result.error?.message || "Registration failed",
               isLoading: false,
             },
           }));
@@ -98,7 +91,7 @@ export const authSlice: StateCreator<
         set((state) => ({
           auth: {
             ...state.auth,
-            error: 'Network error. Please try again.',
+            error: "Network error. Please try again.",
             isLoading: false,
           },
         }));
@@ -116,19 +109,14 @@ export const authSlice: StateCreator<
       }));
 
       try {
-        const response = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        });
-
+        const response = await authApi.login(email, password);
         const result = await response.json();
 
         if (!response.ok) {
           set((state) => ({
             auth: {
               ...state.auth,
-              error: result.error?.message || 'Login failed',
+              error: result.error?.message || "Login failed",
               isLoading: false,
             },
           }));
@@ -158,7 +146,7 @@ export const authSlice: StateCreator<
         set((state) => ({
           auth: {
             ...state.auth,
-            error: 'Network error. Please try again.',
+            error: "Network error. Please try again.",
             isLoading: false,
           },
         }));
@@ -168,9 +156,9 @@ export const authSlice: StateCreator<
 
     logout: async () => {
       try {
-        await fetch('/api/auth/logout', { method: 'POST' });
+        await authApi.logout();
       } catch (error) {
-        console.error('Logout API error:', error);
+        console.error("Logout API error:", error);
       }
       set((state) => ({
         auth: {
@@ -202,7 +190,7 @@ export const authSlice: StateCreator<
 
     checkAuth: async () => {
       try {
-        const response = await fetch('/api/auth/refresh', { method: 'POST' });
+        const response = await authApi.refresh();
         const result = await response.json();
 
         if (result.success && result.data?.accessToken) {
