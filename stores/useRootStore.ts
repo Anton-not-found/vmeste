@@ -1,14 +1,17 @@
 import { create } from "zustand";
-import { authSlice, IAuthActions, IAuthState } from "./authSlice";
+import { authSlice, IAuthActions, IAuthState, TAuthSlice } from "./auth/authSlice";
+import { activityCardSlice, IActivityCardActions, IActivityCardState, TActivityCardSlice } from "./activity";
 
 interface IRootStore {
-  auth: IAuthState & IAuthActions;
-  // Сюда добавятся другие срезы
+  auth: TAuthSlice;
+  activityCard: TActivityCardSlice
+ 
 }
 
 export const useRootStore = create<IRootStore>()((...args) => ({
   ...authSlice(...args),
-  // ...activityCardCollectionSlice(...args), - добавим позже
+  ...activityCardSlice(...args),
+ 
 }));
 
 function getOnlyData<T extends Record<string, any>>(obj: T): Partial<T> {

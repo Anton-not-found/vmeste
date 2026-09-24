@@ -56,11 +56,6 @@ const UserSchema = new Schema<IUserDB>({
   },
 });
 
-const User =
-  mongoose.models.User || mongoose.model<IUserDB>("User", UserSchema);
-
-export default User;
-
 export interface IUserResponse {
   id: string;
   email: string;
@@ -85,3 +80,8 @@ export function toUserResponse(user: IUserDB): IUserResponse {
     createdAt: user.createdAt.toISOString(),
   };
 }
+
+const User =
+  mongoose.models.User || mongoose.model<IUserDB>("User", UserSchema);
+
+export default User;

@@ -3,6 +3,7 @@ import { AuthProvider } from "./providers/AuthProvider";
 import "../styles/globals.scss";
 import { ConfigProvider } from "antd";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import ruRU from "antd/locale/ru_RU";
 
 export const metadata: Metadata = {
   title: "Vmeste",
@@ -19,6 +20,7 @@ export default function RootLayout({
       <body>
         <AntdRegistry>
           <ConfigProvider
+            locale={ruRU}
             theme={{
               token: {
                 colorPrimary: "#3b82f6",

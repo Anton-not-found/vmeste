@@ -47,7 +47,7 @@ export const LoginForm: FC = () => {
             field: { name, value, onChange },
             fieldState: { error },
           }) => (
-            <Form.Item
+            <Form.Item layout="vertical"
               label="Email"
               validateStatus={error ? "error" : ""}
               help={error?.message}
@@ -72,7 +72,7 @@ export const LoginForm: FC = () => {
             field: { name, value, onChange },
             fieldState: { error },
           }) => (
-            <Form.Item
+            <Form.Item layout="vertical"
               label="Пароль"
               validateStatus={error ? "error" : ""}
               help={error?.message}

@@ -1,7 +1,19 @@
+// Вспомогательный тип для извлечения только строковых ключей
+type StringKeys<T> = Extract<keyof T, string>;
+// Тип для вложенных ключей (только строковые ключи)
+type NestedKeys<T> = {
+  [K in StringKeys<T>]: T[K] extends object
+    ? K | `${K}.${NestedKeys<T[K]>}`
+    : K;
+}[StringKeys<T>];
+
 export function filterArrayByValues<T extends object>(
   searchString: string,
   dataArr: T[],
-  keys: { key: keyof T; transformValue?: (value: any) => string }[],
+  keys: {
+    key: NestedKeys<T>; 
+    transformValue?: (value: any) => string;
+  }[],
 ): T[] {
   if (!searchString) {
     return dataArr;
@@ -11,9 +23,14 @@ export function filterArrayByValues<T extends object>(
 
   return dataArr.filter((item) => {
     return keys.some((k) => {
+      const keyPath = k.key as string;
+      const rawValue = keyPath.includes(".")
+        ? getNestedValue(item, keyPath)
+        : item[keyPath as keyof T];
+
       const value = k.transformValue
-        ? k.transformValue(item[k.key as keyof T])
-        : String(item[k.key as keyof T] as string | undefined);
+        ? k.transformValue(rawValue)
+        : String(rawValue ?? "");
 
       return (
         typeof value === "string" &&
@@ -21,4 +38,18 @@ export function filterArrayByValues<T extends object>(
       );
     });
   });
+}
+
+function getNestedValue<T extends object>(obj: T, path: string): any {
+  const keys = path.split(".");
+  let current: any = obj;
+
+  for (const key of keys) {
+    if (current === null || current === undefined) {
+      return undefined;
+    }
+    current = current[key];
+  }
+
+  return current;
 }

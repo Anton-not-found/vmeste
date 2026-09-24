@@ -1,16 +1,15 @@
-// stores/authSlice.ts
 import { IUser } from "@/shared/types/user.types";
 import { StateCreator } from "zustand";
+import { authApi, IRegisterData } from "./authApi";
+import { setAuthToken } from "@/lib";
 
-
-
- interface IRegisterData {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName?: string;
-  city?: string;
-}
+// interface IRegisterData {
+//   email: string;
+//   password: string;
+//   firstName: string;
+//   lastName?: string;
+//   city?: string;
+// }
 
 export interface IAuthState {
   user: IUser | null;
@@ -38,10 +37,10 @@ const initialState: IAuthState = {
 };
 
 export const authSlice: StateCreator<
-  { auth: TAuthSlice }, // тип всего стора
+  { auth: TAuthSlice },
   [],
   [],
-  { auth: TAuthSlice } // что возвращаем
+  { auth: TAuthSlice }
 > = (set, get) => ({
   auth: {
     ...initialState,
@@ -56,24 +55,8 @@ export const authSlice: StateCreator<
       }));
 
       try {
-        const response = await fetch('/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          set((state) => ({
-            auth: {
-              ...state.auth,
-              error: result.error?.message || 'Registration failed',
-              isLoading: false,
-            },
-          }));
-          return false;
-        }
+        const response = await authApi.register(data);
+        const result = response.data;
 
         if (result.success && result.data) {
           set((state) => ({
@@ -94,11 +77,14 @@ export const authSlice: StateCreator<
           },
         }));
         return false;
-      } catch (error) {
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.error?.message ||
+          "Network error. Please try again.";
         set((state) => ({
           auth: {
             ...state.auth,
-            error: 'Network error. Please try again.',
+            error: errorMessage,
             isLoading: false,
           },
         }));
@@ -116,26 +102,11 @@ export const authSlice: StateCreator<
       }));
 
       try {
-        const response = await fetch('/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password }),
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-          set((state) => ({
-            auth: {
-              ...state.auth,
-              error: result.error?.message || 'Login failed',
-              isLoading: false,
-            },
-          }));
-          return false;
-        }
+        const response = await authApi.login(email, password);
+        const result = await response.data;
 
         if (result.success && result.data) {
+          setAuthToken(result.data.accessToken);
           set((state) => ({
             auth: {
               ...state.auth,
@@ -154,11 +125,14 @@ export const authSlice: StateCreator<
           },
         }));
         return false;
-      } catch (error) {
+      } catch (error: any) {
+        const errorMessage =
+          error.response?.data?.error?.message ||
+          "Network error. Please try again.";
         set((state) => ({
           auth: {
             ...state.auth,
-            error: 'Network error. Please try again.',
+            error: errorMessage,
             isLoading: false,
           },
         }));
@@ -168,10 +142,11 @@ export const authSlice: StateCreator<
 
     logout: async () => {
       try {
-        await fetch('/api/auth/logout', { method: 'POST' });
+        await authApi.logout();
       } catch (error) {
-        console.error('Logout API error:', error);
+        console.error("Logout API error:", error);
       }
+      setAuthToken(null);
       set((state) => ({
         auth: {
           ...state.auth,
@@ -201,11 +176,19 @@ export const authSlice: StateCreator<
     },
 
     checkAuth: async () => {
+      // Проверяем, есть ли refreshToken в cookies
+      const hasRefreshToken = document.cookie.includes("refreshToken");
+
+      if (!hasRefreshToken) {
+        return false;
+      }
+
       try {
-        const response = await fetch('/api/auth/refresh', { method: 'POST' });
-        const result = await response.json();
+        const response = await authApi.refresh();
+        const result = response.data;
 
         if (result.success && result.data?.accessToken) {
+          setAuthToken(result.data.accessToken);
           set((state) => ({
             auth: {
               ...state.auth,
@@ -216,7 +199,8 @@ export const authSlice: StateCreator<
           return true;
         }
         return false;
-      } catch {
+      } catch (error) {
+        console.error("Refresh failed:", error);
         return false;
       }
     },

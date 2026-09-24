@@ -1,11 +1,11 @@
 "use client";
 
 import { useRootStore } from "@/stores/useRootStore";
-import { Controller, SubmitHandler, useForm, Validate } from "react-hook-form";
 import { Text } from "@/shared/components/common/Text/ui/Text";
 import { useRouter } from "next/navigation";
 import { isEmail } from "@/shared";
 import { Button, Flex, Form, Input } from "antd";
+import { Controller, SubmitHandler, useForm, Validate } from "react-hook-form";
 import Link from "antd/es/typography/Link";
 
 interface IFormField {
@@ -81,7 +81,7 @@ export const RegisterForm = () => {
                 field: { name, value, onChange },
                 fieldState: { error },
               }) => (
-                <Form.Item
+                <Form.Item layout="vertical"
                   label="Email"
                   validateStatus={error ? "error" : ""}
                   help={error?.message}
@@ -110,7 +110,7 @@ export const RegisterForm = () => {
                 field: { name, value, onChange },
                 fieldState: { error },
               }) => (
-                <Form.Item
+                <Form.Item layout="vertical"
                   label="Пароль"
                   validateStatus={error ? "error" : ""}
                   help={error?.message}
@@ -140,7 +140,7 @@ export const RegisterForm = () => {
                 field: { name, value, onChange },
                 fieldState: { error },
               }) => (
-                <Form.Item
+                <Form.Item layout="vertical"
                   label="Имя"
                   validateStatus={error ? "error" : ""}
                   help={error?.message}
@@ -172,8 +172,7 @@ export const RegisterForm = () => {
           <Text>
             Уже с нами?{" "}
             <Link
-              // variant="primary"
-              // size="large"
+
               href="/login"
             >
               Войти
