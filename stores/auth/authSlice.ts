@@ -1,6 +1,7 @@
 import { IUser } from "@/shared/types/user.types";
 import { StateCreator } from "zustand";
 import { authApi, IRegisterData } from "./authApi";
+import { setAuthToken } from "@/lib";
 
 // interface IRegisterData {
 //   email: string;
@@ -55,18 +56,7 @@ export const authSlice: StateCreator<
 
       try {
         const response = await authApi.register(data);
-        const result = response.data; // axios автоматически парсит JSON
-
-        // if (!response.ok) {
-        //   set((state) => ({
-        //     auth: {
-        //       ...state.auth,
-        //       error: result.error?.message || "Registration failed",
-        //       isLoading: false,
-        //     },
-        //   }));
-        //   return false;
-        // }
+        const result = response.data;
 
         if (result.success && result.data) {
           set((state) => ({
@@ -115,18 +105,8 @@ export const authSlice: StateCreator<
         const response = await authApi.login(email, password);
         const result = await response.data;
 
-        // if (!response.ok) {
-        //   set((state) => ({
-        //     auth: {
-        //       ...state.auth,
-        //       error: result.error?.message || "Login failed",
-        //       isLoading: false,
-        //     },
-        //   }));
-        //   return false;
-        // }
-
         if (result.success && result.data) {
+          setAuthToken(result.data.accessToken);
           set((state) => ({
             auth: {
               ...state.auth,
@@ -166,6 +146,7 @@ export const authSlice: StateCreator<
       } catch (error) {
         console.error("Logout API error:", error);
       }
+      setAuthToken(null);
       set((state) => ({
         auth: {
           ...state.auth,
@@ -195,11 +176,19 @@ export const authSlice: StateCreator<
     },
 
     checkAuth: async () => {
+      // Проверяем, есть ли refreshToken в cookies
+      const hasRefreshToken = document.cookie.includes("refreshToken");
+
+      if (!hasRefreshToken) {
+        return false;
+      }
+
       try {
         const response = await authApi.refresh();
-        const result = await response.data();
+        const result = response.data;
 
         if (result.success && result.data?.accessToken) {
+          setAuthToken(result.data.accessToken);
           set((state) => ({
             auth: {
               ...state.auth,
@@ -210,7 +199,8 @@ export const authSlice: StateCreator<
           return true;
         }
         return false;
-      } catch {
+      } catch (error) {
+        console.error("Refresh failed:", error);
         return false;
       }
     },

@@ -15,12 +15,24 @@ export const AuthProvider:FC<TProps> = ({ children }) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
+    let isMounted = true;
+    
     const initAuth = async () => {
-      await checkAuth();
-      setIsReady(true);
+      try {
+        await checkAuth();
+      } catch (error) {
+        console.error('Auth check failed:', error);
+      } finally {
+        if (isMounted) setIsReady(true);
+      }
     };
+    
     initAuth();
-  }, [checkAuth]);
+    
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   if (!isReady && isLoading) {
     return (
