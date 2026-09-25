@@ -90,3 +90,11 @@ const getCode = () => {
 > - Запрещено заключать договор при фактическом отсутствии сдаваемого устройства
 > - Запрещено принимать устройства со вздутой батарее
 
+
+
+
+![asdasd](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSd4nz5sR-qJJVvXGFWW9oZwrQLjdRDqb8KAsnrSEWQtvIkl_A_SwjY42kp&s=10)
+
+Каритнка рядом ![asd](https://i.pinimg.com/474x/b7/25/5e/b7255e335346efb13d14471946cfc693.jpg)
+
+Конец
